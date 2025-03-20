@@ -1,0 +1,105 @@
+//RECEIVER - OPERATOR - OPERAND
+s.boot;
+//Mixing = addition
+//mix two sawtooth waves
+(
+{
+	Saw.ar(500, 0.05)
+	+
+	Saw.ar(600, 0.06)
+}.scope;
+)
+
+//mix three unit generators
+
+(
+{
+	Saw.ar(500, 0.05)
+	+
+	Saw.ar(600, 0.06)
+	+
+	Saw.ar(700, 0.07)
+}.scope;
+)
+
+//Use MIX
+(
+{
+	Mix.ar(
+		[
+			Saw.ar(500, 0.05),
+			Saw.ar(600, 0.06),
+			Saw.ar(700, 0.07)
+		]
+	)
+}.scope;
+)
+
+//Mix.arFill
+{Mix.arFill(3, {|i| Saw.ar(500 + (i*100), 0.05)})}.scope;
+
+//Scaling = multiplication
+{WhiteNoise.ar(0.1) * SinOsc.kr(1, 1)}.scope;
+
+(
+{
+	(WhiteNoise.ar(0.1) * SinOsc.kr(1, 1))
+	*
+	(BrownNoise.ar(0.1) * SinOsc.kr(2, 1))
+}.scope(zoom: 2000);
+)
+
+//Envelopes
+{ SinOsc.ar(440, 0, 0.1) * EnvGen.kr(Env.sine(1), doneAction: Done.freeSelf)}.scope;
+
+//Keyword arguments
+(
+SynthDef("timeScale", {
+	|ts=1|
+	Out.ar(
+		0,
+		SinOsc.ar(440, 0, 0.4)
+		*
+		EnvGen.kr(
+			Env.sine(1),
+			doneAction: Done.freeSelf,
+			timeScale: ts
+		)
+	)
+}).add;
+)
+
+Synth("timeScale", [\ts, 0.1]) //timeScale controls the duration of the envelope
+
+(
+r = Routine({
+	loop({
+		Synth("timeScale", [\ts, 0.01.rrand(0.3)]);
+		0.5.wait;
+	})
+});
+)
+r.play;
+r.stop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
