@@ -19,3 +19,25 @@ s.boot;
 )
 
 //Scoping Sound
+{SinOsc.ar([400, 401], 0, 0.5) * Saw.ar([11, 33], 0.5)}.play;
+s.scope(2);
+
+(
+{SinOsc.ar([400, 401], 0, 0.5) * Saw.ar([11, 33], 0.5)}.scope(2);
+)
+
+thisProcess.platform.recordingsDir;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
