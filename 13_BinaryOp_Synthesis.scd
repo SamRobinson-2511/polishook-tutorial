@@ -83,6 +83,108 @@ r.play;
 r.stop;
 
 
+//Additive Synthesis
+(
+{
+	var n = 12;
+	Mix.arFill(
+		n,
+		{
+			SinOsc.ar(
+				[67.0.rrand(2000), 67.0.rrand(2000)],
+				0,
+				n.reciprocal * 0.75
+			)
+		}
+	)
+	*
+	EnvGen.kr(Env.perc(11, 6), doneAction: Done.freeSelf)
+}.scope;
+)
+
+//Envelopes
+(
+{
+	var n = 12;
+	Mix.arFill(
+		n,
+		{
+			SinOsc.ar(
+				[67.0.rrand(2000), 67.0.rrand(2000)],
+				0,
+				n.reciprocal
+			)
+			*
+			EnvGen.kr(
+				Env.sine(2.0.rrand(17)),
+				doneAction: Done.none
+			)
+		}
+	)
+	*
+	EnvGen.kr(
+		Env.perc(11, 6),
+		doneAction: Done.freeSelf,
+		levelScale: 0.75
+	)
+}.scope;
+)
+
+//Klang UGen
+
+//Ring Modulation
+
+{ SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880)}.scope;
+
+
+//Amplitude Modulation
+//use an lfo to modulate the amplitude of the modulator
+(
+{
+	SinOsc.ar(440, 0, 0.571)
+	*
+	SinOsc.kr(880)
+	*
+	SinOsc.kr([6.99, 8.01].reciprocal)
+}.scope;
+)
+
+//classic AM
+{SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880).abs}.scope;
+
+//ring
+{ SinOsc.ar(440, 0, 0.571) * SinOsc.kr(880) }.scope;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
