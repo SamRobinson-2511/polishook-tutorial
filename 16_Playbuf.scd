@@ -1,3 +1,5 @@
+s.reboot;
+
 (
 b = Buffer.read(s, Platform.resourceDir +/+ "sounds/a11wlk01.wav");
 //mono sample player
@@ -45,7 +47,7 @@ SynthDef("aLoopingSampler", {
 		PlayBuf.ar(
 			1,
 			bufnum,
-			BufRateScale.kr(bufnum) * rateScale + LFNoise1.kr(2.reciprocal, 0.05),
+			BufRateScale.kr(bufnum) * rateScale + LFNoise0.kr(2.reciprocal, 0.05),
 			loop: 1
 		)
 		*
@@ -69,7 +71,7 @@ SynthDef("ampMod", {
 
 //apply a low pass filter to an audio source
 SynthDef("aLowPassFilter", {
-	|inBus=0, outBus=0, freq=300, freqDev=50, boost=1|
+	|inBus=0, outBus=0, freq=50, freqDev=50, boost=1|
 	Out.ar(
 		outBus,
 		RLPF.ar(
@@ -80,7 +82,7 @@ SynthDef("aLowPassFilter", {
 		*
 		boost
 		*
-		LFPulse.kr(1, [0.25, 0.75], [0.5, 0.45])
+		LFPulse.kr(1, [0.50, 0.75], [0.5, 0.45])
 		+
 		In.ar(inBus, 2)
 	)
@@ -110,7 +112,11 @@ SynthDef("aLowPassFilter", {
 s.queryAllNodes;
 )
 
-
+(
+~theSource.set(\rateScale, 0.95.rrand(1.05), \mul, 0.051.rrand(0.07));
+~fx1.set(\modFreq, 800.0.rrand(1200));
+~fx2.set(\freq, 500.rrand(700), \freqDev, 180.rrand(210), \boost, 7);
+)
 
 
 
