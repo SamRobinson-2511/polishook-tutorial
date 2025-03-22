@@ -119,6 +119,30 @@ Synth.tail(s, "carrier", [\inbus, 4, \outbus, 1, \freq, freq, \carPartial, 0.97]
 s.queryAllNodes;
 )
 
+//Reverberation and FM
+(
+var freq;
+freq = 330.0.rrand(500);
+
+Synth.head(s, "modulator", [\outbus, 60, \freq, freq, \modPartial, 0.649, \index, 2]);
+Synth.head(s, "modulator", [\outbus, 60, \freq, freq, \modPartial, 1.638, \index, 2.31]);
+
+Synth.head(s, "modulator", [\outbus, 62, \freq, freq, \modPartial, 1.11, \index, 1.43]);
+Synth.head(s, "modulator", [\outbus, 62, \freq, freq, \modPartial, 0.729, \index, 1.76]);
+
+Synth.head(s, "carrier", [\inbus, 60, \outbus, 100, \freq, freq, \carpartial, 1]);
+Synth.head(s, "carrier", [\inbus, 62, \outbus, 100, \freq, freq+1, \carpartial, 2.91]);
+
+Synth.tail(s, "preDelay", [\inbus, 100]);
+Synth.tail(s, "combs");
+Synth.tail(s, "allpass");
+Synth.tail(s, "theMixer", [\gain, 0.2]);
+
+)
+
+(
+s.queryAllNodes;
+)
 
 
 
