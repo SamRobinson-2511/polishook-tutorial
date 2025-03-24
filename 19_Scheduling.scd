@@ -83,7 +83,7 @@ SynthDef("fm2", {
 
 	Out.ar(
 		bus,
-		car * EnvGen.kr(Env.sine(1), doneAction: Done.freeSelf, timeScale: ts)
+		car * EnvGen.kr(Env.sine(1), doneAction: Done.freeSelf, timeScale: ts )
 	)
 }).add;
 )
@@ -105,7 +105,7 @@ r = Routine({
 )
 
 r.reset.play;
-
+Synth("fm2", [\freq, rrand(100.01, 202), \carPartial, rrand(0.01, 0.1), \ts, 0.01.rrand(20)]);
 //process synths spawned in a routine through effects that run outside of the routine
 (
 SynthDef("echoplex",{
@@ -114,7 +114,7 @@ SynthDef("echoplex",{
 		CombN.ar(
 			In.ar(0, 1),
 			0.35,
-			[Rand(0.005, 0.3), Rand(0.05, 0.3)],
+			[Rand(0.005, 0.3), Rand(0.0005, 0.03)],
 			7,
 			0.5
 		)
@@ -131,37 +131,18 @@ r = Routine({
 			~source,
 			"fm2",
 			[
-				\outbus, 0, \freq, 40.0.rrand(1200), \modPartial, 0.75.rrand(2.0),
+				\outbus, 0, \freq, 40.0.rrand(1200), \modPartial, 0.3.rrand(2.0),
 				\carPartial, 0.5.rrand(11), \ts, 0.1.rrand(0.2)
 			]
 		);
 		s.queryAllNodes;
-		0.5.wait;
+		2.wait;
 	});
 });
 Synth.head(~effect, "echoplex");
 Synth.tail(~effect, "echoplex");
 )
 r.reset.play;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+s.scope;
+FreqScope(300, 200, 0, server: s);
 )
